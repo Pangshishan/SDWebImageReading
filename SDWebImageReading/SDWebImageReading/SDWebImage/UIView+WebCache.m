@@ -77,8 +77,11 @@ static char TAG_ACTIVITY_SHOW;
             manager = [SDWebImageManager sharedManager];
         }
         
+        /*
+         将url 交给 SDWebImageManager , SDWebImageManager会在内部进行一系列操作, 返回Operation, 供self保存; 在适当的时机会回调一下block
+         */
         __weak __typeof(self)wself = self;
-        id <SDWebImageOperation> operation = [manager loadImageWithURL:url options:options progress:progressBlock completed:^(UIImage *image, NSData *data, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+        id <SDWebImageOperation> operation = [manager loadImageWithURL:url options:options progress:progressBlock completed:^(UIImage *image, NSData *data, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) { /// 对返回的图片进行一系列操作
             
             __strong __typeof (wself) sself = wself;
             [sself sd_removeActivityIndicator];
